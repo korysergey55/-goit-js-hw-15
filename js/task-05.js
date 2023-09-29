@@ -34,15 +34,8 @@ const inputBoxRef = document.querySelector('input[data-box-input]');
 const buttonCreateBoxRef = document.querySelector('button[data-box-create]');
 const buttonDestroyBoxRef = document.querySelector('button[data-box-destroy]');
 
-let quontytyBoxes = 0
-
-inputBoxRef.addEventListener('input', (evt) => {
-  quontytyBoxes = parseInt(evt.target.value)
-  console.log(quontytyBoxes)
-})
-
 const createBoxes = (amount) => {
-  remuveBoxes()
+  removeBoxes()
   let boxes = []
 
   const lastElementSize = () => {
@@ -50,38 +43,29 @@ const createBoxes = (amount) => {
     let correctSize = parseInt(boxSizePx.slice(0, (boxSizePx.length - 2)))
     return correctSize
   }
-
+  let sizes = 30
   for (let i = 0; i < amount; i += 1) {
-    if (!boxes.length) {
-      const newDiv = document.createElement('div');
-      newDiv.classList.add('box');
-      newDiv.style.width = '30px';
-      newDiv.style.height = '30px';
-      newDiv.style.backgroundColor = getRandomHexColor()
-      boxes.push(newDiv)
-    }
-
-    else {
-      const newDiv = document.createElement('div');
-      newDiv.classList.add('box');
-      newDiv.style.width = lastElementSize() + 10 + 'px';
-      newDiv.style.height = lastElementSize() + 10 + 'px';
-      newDiv.style.backgroundColor = getRandomHexColor()
-      boxes.push(newDiv)
-    }
+    const newDiv = document.createElement('div');
+    newDiv.classList.add('box');
+    newDiv.style.width = `${sizes}px`;
+    newDiv.style.height = `${sizes}px`;
+    newDiv.style.backgroundColor = getRandomHexColor();
+    boxes.push(newDiv);
+    sizes += 10;
   }
   boxesContainerRef.append(...boxes)
 }
 
-const remuveBoxes = () => {
-  const boxesRef = document.querySelectorAll('.box')
-  for (const item of boxesRef) {
-    if (boxesRef.length) item.remove()
-  }
+const removeBoxes = () => {
+  boxesContainerRef.innerHTML = ''
 }
 
-buttonCreateBoxRef.addEventListener('click', () => createBoxes(quontytyBoxes))
-buttonDestroyBoxRef.addEventListener('click', () => remuveBoxes())
+buttonCreateBoxRef.addEventListener('click', () => {
+  const inputValue = parseInt(inputBoxRef.value)
+  createBoxes(inputValue)
+})
+
+buttonDestroyBoxRef.addEventListener('click', () => removeBoxes())
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)
