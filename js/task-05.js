@@ -35,14 +35,9 @@ const buttonCreateBoxRef = document.querySelector('button[data-box-create]');
 const buttonDestroyBoxRef = document.querySelector('button[data-box-destroy]');
 
 const createBoxes = (amount) => {
-  removeBoxes()
+  destroyBoxes()
   let boxes = []
 
-  const lastElementSize = () => {
-    let boxSizePx = boxes.find((item, index, arr) => index === arr.length - 1).style.width
-    let correctSize = parseInt(boxSizePx.slice(0, (boxSizePx.length - 2)))
-    return correctSize
-  }
   let sizes = 30
   for (let i = 0; i < amount; i += 1) {
     const newDiv = document.createElement('div');
@@ -56,7 +51,7 @@ const createBoxes = (amount) => {
   boxesContainerRef.append(...boxes)
 }
 
-const removeBoxes = () => {
+const destroyBoxes = () => {
   boxesContainerRef.innerHTML = ''
 }
 
@@ -65,7 +60,7 @@ buttonCreateBoxRef.addEventListener('click', () => {
   createBoxes(inputValue)
 })
 
-buttonDestroyBoxRef.addEventListener('click', () => removeBoxes())
+buttonDestroyBoxRef.addEventListener('click', () => destroyBoxes())
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215)
